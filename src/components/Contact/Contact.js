@@ -1,49 +1,25 @@
-import React, { useState } from 'react'
+import React, {useRef  } from 'react'
 import "./Contact.css"
-import { ToastContainer, toast } from "react-toastify";
-import { Button, Card, CardBody, Form, FormGroup, Input, Label } from 'reactstrap'
+import { Button, Card, CardBody, CardFooter} from 'reactstrap'
 import 'react-toastify/dist/ReactToastify.css';
+import emailjs from '@emailjs/browser';
 
-
+ 
 export default function Contact() {
-  const [form, setForm] = useState({
-    name: "",
-    email: "",
-    subject: "",
-    message: ""
-  });
 
-  const handlechange = async (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value })
-  }
-
-  const handlesubmit = async (e) => {
+  const form = useRef(); 
+  
+  const sendEmail = (e) => {
     e.preventDefault();
-    const { name, email, subject, message } = form;
-    if (name === "") {
-      toast.error("Name is required")
-    } else if (email === "") {
-      toast.error("email is required")
-    } else if (subject === "") {
-      toast.error("subject is required")
-    } else if (message === "") {
-      toast.error("message is required")
-    }
-    else {
-      const response=await fetch('https://www-portfoliobackend.onrender.com/sendemail',{
-        method:'POST',
-        headers:{'Content-Type':'application/json'},
-        body:JSON.stringify(form)
-      })
-      const data=await response.json()
-      console.log(data)
-      setForm({...form,
-        name:"",
-        email:"",
-        subject:"",
-        message:""})
-    }
-  }
+    emailjs.sendForm('service_ujk58mi', 'template_z0ge1bi', form.current, 'RTKpR9V02KOIfpM08')
+      .then((result) => {
+          console.log(result.text);
+          console.log("message sent");
+          e.target.reset();
+      }, (error) => {
+          console.log(error.text);
+      });
+  };
 
   return (
     <div className='container' >
@@ -53,69 +29,24 @@ export default function Contact() {
         className="text-center"       
       >      
         <CardBody>
-          <Form onSubmit={handlesubmit}>
-            <FormGroup floating>
-              <Input
-                id="name"
-                name="name"
-                placeholder="Enter fullname"
-                type="text"
-                value={form.name}
-                onChange={handlechange}
-              />
-              <Label for="exampleEmail">
-                Full Name
-              </Label>
-            </FormGroup>
-            <FormGroup floating>
-              <Input
-                id="email"
-                name="email"
-                placeholder="Email"
-                type="email"
-                value={form.email}
-                onChange={handlechange}
-              />
-              <Label for="exampleEmail">
-                Email
-              </Label>
-            </FormGroup>
-            {' '}
-            <FormGroup floating>
-              <Input
-                id="subject"
-                name="subject"
-                placeholder="subject"
-                type="subject"
-                value={form.subject}
-                onChange={handlechange}
-              />
-              <Label for="subject">
-                Subject
-              </Label>
-            </FormGroup>
-            {' '}
-            <FormGroup floating>
-              <Input
-                id="message"
-                name="message"
-                placeholder="message"
-                type="text"
-                value={form.message}
-                onChange={handlechange}
-              />
-              <Label for="message">
-                Message
-              </Label>
-            </FormGroup>
-            {' '}
-            <Button color="primary" size='lg' >
-              Submit
-            </Button>
-          </Form>
+        <form ref={form} onSubmit={sendEmail}>
+        <label className='title'>Name</label>
+        <input className='box' type="text" name="user_name" />
+        <label className='title' >Email</label>
+        <input className='box' type="email" name="user_email" />
+        <label className='title' >Message</label>
+        <textarea className='box' name="message" />
+        <input type="submit" value="Send" className='button_send'/>
+      </form>
         </CardBody>
-      </Card>
-      <ToastContainer position="top-center" />
+        <CardFooter>
+        <Button color="success" style={{margin:"0 20px 0 20px"}} onClick={() =>
+          window.open('https://github.com/pramilasundaram/', "_blank")} size='lg'  >Github</Button>
+        <Button color="warning" style={{margin:"0 20px 0 20px"}} onClick={() =>
+          window.open('https://www.linkedin.com/in/pramila-sundaram-0a85146b/', "_blank")} size='lg'  >linkedin</Button>
+        
+        </CardFooter>
+      </Card>      
     </div>
   )
 

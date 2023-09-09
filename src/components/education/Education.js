@@ -7,7 +7,7 @@ import { FaGraduationCap} from "react-icons/fa";
 export default function Education() {
   return (
     <div className='container' >
-    <h1 align="center">CONTACT</h1>
+    <h1 align="center">EDUCATION AND WORK</h1>
       <Card
         body
         className="text-center"       
@@ -23,8 +23,7 @@ export default function Education() {
     <h4 className="vertical-timeline-element-subtitle">Online Course</h4>
     <p>
     MERN Stack
-    GUVI,chennai.
-    
+    GUVI,chennai.  
     </p>
   </VerticalTimelineElement>
     <VerticalTimelineElement
