@@ -36,14 +36,12 @@ export default function Header(args) {
           <NavItem>
             <NavLink href="/contact" style={{color:"white",fontSize:"24px", padding:"0px 20px"}}>Contact</NavLink>
           </NavItem>
-        </Nav>
-    
+        </Nav>    
         <NavbarText>
         <Button onClick={() =>
            window.open('https://drive.google.com/file/d/12T1h6OPmLCd4W4qy1VJ-jCq3FxY-xZbX/view?usp=sharing', "_blank")} size='lg' color="primary"> Resume </Button>
         </NavbarText>
       </Collapse>
     </Navbar>
-
   )
 }
